@@ -3,23 +3,39 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setSortType } from '../redux/slices/filterSlice';
 
+export const varieties = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+];
+
 function Sort({ value, onClickSortType }) {
   const sort = useSelector((state) => state.filter.sortType);
   const dispatch = useDispatch();
+  const sortRef = React.useRef();
 
   const [isVisible, setIsVisible] = React.useState(false);
-  const varieties = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ];
 
   const chooseVariety = (value) => {
     dispatch(setSortType(value));
     setIsVisible(false);
   };
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      const path = event.path || (event.composedPath && event.composedPath());
+      if (!path.includes(sortRef.current)) {
+        setIsVisible(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         {isVisible ? (
           <svg
