@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Search } from './Search';
 import logoSvg from '../assets/img/pizza-logo.svg';
@@ -7,6 +7,7 @@ import '../scss/components/_header.scss';
 
 function Header() {
   const { totalPrice, items } = useSelector((state) => state.cart);
+  const totalItem = items.reduce((sum, item) => sum + item.count, 0);
 
   return (
     <div className="header">
@@ -53,7 +54,7 @@ function Header() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{items.length}</span>
+            <span>{totalItem}</span>
           </Link>
         </div>
       </div>

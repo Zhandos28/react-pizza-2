@@ -68,7 +68,6 @@ function Home() {
 
     isSearch.current = false;
   }, [categoryId, sortType.sortProperty, searchValue, currentPage]);
-  console.log(items);
   return (
     <div className="container">
       <div className="content__top">

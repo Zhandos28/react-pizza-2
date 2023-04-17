@@ -50,7 +50,7 @@ function PizzaBlock({ id, title, price, imageUrl, types, sizes }) {
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <div className="button button--outline button--add">
+          <div onClick={onClickAdd} className="button button--outline button--add">
             <svg
               width="12"
               height="12"
@@ -62,7 +62,7 @@ function PizzaBlock({ id, title, price, imageUrl, types, sizes }) {
                 fill="white"
               />
             </svg>
-            <span onClick={onClickAdd}>Добавить</span>
+            <span>Добавить</span>
             {count > 0 && <i>{count}</i>}
           </div>
         </div>
