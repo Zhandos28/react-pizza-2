@@ -3,32 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import EmptyCart from '../components/EmptyCart';
-import { clearItem } from '../redux/slices/cartSlice';
+import { clearItem, selectCart } from '../redux/slices/cartSlice';
 
 function Cart() {
   const dispatch = useDispatch();
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(selectCart);
 
   const totalItem = items.reduce((sum, item) => sum + item.count, 0);
-  const groupedPizzas = Object.values(
-    items.reduce((acc, pizza) => {
-      const { id, type, size } = pizza;
-      const key = `${id}-${type}-${size}`;
-      if (!acc[key]) {
-        acc[key] = {
-          id,
-          type,
-          size,
-          items: [pizza],
-        };
-      } else {
-        acc[key].items.push(pizza);
-      }
-      return acc;
-    }, {}),
-  );
 
-  console.log(groupedPizzas);
   const removeAll = () => {
     if (window.confirm('Вы хотите очистить корзину?')) {
       dispatch(clearItem());

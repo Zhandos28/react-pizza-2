@@ -8,9 +8,8 @@ import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
-import { setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { selectFilter, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 
 function Home() {
   const dispatch = useDispatch();
@@ -18,9 +17,8 @@ function Home() {
   const isSearch = React.useRef(false);
   const isMount = React.useRef(false);
 
-  const { items, status } = useSelector((state) => state.pizza);
-  const { categoryId, sortType, currentPage } = useSelector((state) => state.filter);
-  const { searchValue } = React.useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzaData);
+  const { categoryId, sortType, currentPage, searchValue } = useSelector(selectFilter);
 
   const getPizzas = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
@@ -55,11 +53,7 @@ function Home() {
   }, [categoryId, sortType.sortProperty, currentPage]);
 
   React.useEffect(() => {
-    // if (!isSearch.current) {
     getPizzas();
-    // }
-
-    // isSearch.current = false;
   }, [categoryId, sortType.sortProperty, searchValue, currentPage]);
   return (
     <div className="container">
